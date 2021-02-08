@@ -120,6 +120,8 @@ localparam CONF_STR = {
 	"-;",
 	"DIP;",
 	"-;",
+	"O7,Pause,Off,On;",
+	"-;",
 	"OOS,Analog Video H-Pos,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31;",
 	"OTV,Analog Video V-Pos,0,1,2,3,4,5,6,7;",
 	"-;",
@@ -154,10 +156,12 @@ wire        forced_scandoubler;
 wire			direct_video;
 
 wire        ioctl_download;
+wire        ioctl_upload;
 wire        ioctl_wr;
 wire  [7:0]	ioctl_index;
 wire [24:0] ioctl_addr;
 wire  [7:0] ioctl_dout;
+wire  [7:0] ioctl_din;
 
 wire [15:0] joy1, joy2;
 wire [15:0] joy = joy1 | joy2;
@@ -183,9 +187,11 @@ hps_io #(.STRLEN($size(CONF_STR)>>3)) hps_io
 	.direct_video(direct_video),
 
 	.ioctl_download(ioctl_download),
+	.ioctl_upload(ioctl_upload),
 	.ioctl_wr(ioctl_wr),
 	.ioctl_addr(ioctl_addr),
 	.ioctl_dout(ioctl_dout),
+	.ioctl_din(ioctl_din),
 	.ioctl_index(ioctl_index),
 
 	.ps2_mouse(ps2_mouse),
@@ -359,7 +365,35 @@ SEGASYSTEM1 GameCore
 	.ROMCL(clk_sys),
 	.ROMAD(ioctl_addr),
 	.ROMDT(ioctl_dout),
-	.ROMEN(ioctl_wr & (ioctl_index==0))
+	.ROMEN(ioctl_wr & (ioctl_index==0)),
+	.halt_n(~status[7]),
+	
+	.ram_address(ram_address),
+	.ram_data_hi(ioctl_din),
+	.ram_data_in(hiscore_to_ram),
+	.ram_data_write(hiscore_write)
+
 );
+
+
+wire [11:0]ram_address;
+wire [7:0]hiscore_to_ram;
+wire hiscore_write;
+
+hiscore hi (
+   .clk(clk_sys),
+   .ioctl_upload(ioctl_upload),
+   .ioctl_download(ioctl_download),
+   .ioctl_wr(ioctl_wr),
+   .ioctl_addr(ioctl_addr),
+   .ioctl_dout(ioctl_dout),
+   .ioctl_din(ioctl_din),
+   .ioctl_index(ioctl_index),
+   .ram_address(ram_address),
+   .data_to_ram(hiscore_to_ram),
+   .ram_write(hiscore_write)
+
+);
+
 
 endmodule

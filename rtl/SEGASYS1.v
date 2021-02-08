@@ -26,8 +26,13 @@ module SEGASYSTEM1
 	input				ROMCL,		// Downloaded ROM image
 	input   [24:0]	ROMAD,
 	input	  [7:0]	ROMDT,
-	input				ROMEN
-);
+	input				ROMEN,
+	input  [11:0]  ram_address,
+	output [7:0]   ram_data_hi,
+	input  [7:0]   ram_data_in,
+	input  [7:0]   ram_data_write
+
+	);
 
 // CPU
 wire [15:0] CPUAD;
@@ -45,7 +50,14 @@ SEGASYS1_MAIN Main (
 	.SNDRQ(SNDRQ),.SNDNO(SNDNO),
 	.VIDMD(VIDMD),
 	
-	.ROMCL(ROMCL),.ROMAD(ROMAD),.ROMDT(ROMDT),.ROMEN(ROMEN)
+	.ROMCL(ROMCL),.ROMAD(ROMAD),.ROMDT(ROMDT),.ROMEN(ROMEN),
+	
+	.ram_address(ram_address),
+	.ram_data_hi(ram_data_hi),
+	.ram_data_in(ram_data_in),
+	.ram_data_write(ram_data_write)
+
+	
 );
 
 // Video

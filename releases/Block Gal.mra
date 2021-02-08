@@ -2088,6 +2088,16 @@ C7 A6 82 4A D0 30 16 FA C7 A6 82 4A D0 30 16 FA AE 7B D1 29 8E 0D 73 00 AE 7B D1
 C7 A6 82 4A D0 30 16 FA C7 A6 82 4A D0 30 16 FA AE 7B D1 29 8E 0D 73 00 AE 7B D1 29 8E 0D 73 00
 		</patch>
 	</rom>
+
+	<rom index="3" md5="none">
+    <part>
+	    00 00 C0 62 02 00 01 00
+	</part>
+
+   </rom>	
+   <nvram index="4" size="3"/>
+
+
 </misterromdescription>
 
 
