@@ -22,12 +22,19 @@ module SEGASYSTEM1
 
 	output  [15:0] SOUT,			// Sound Out (PCM)
 
+	input PAUSE_N,
 	
 	input				ROMCL,		// Downloaded ROM image
 	input   [24:0]	ROMAD,
 	input	  [7:0]	ROMDT,
-	input				ROMEN
-);
+	input				ROMEN,
+	
+	input  [11:0]  HSAD,
+	output [7:0]   HSDO,
+	input  [7:0]   HSDI,
+	input  [7:0]   HSWE
+
+	);
 
 // CPU
 wire [15:0] CPUAD;
@@ -45,7 +52,11 @@ SEGASYS1_MAIN Main (
 	.SNDRQ(SNDRQ),.SNDNO(SNDNO),
 	.VIDMD(VIDMD),
 	
-	.ROMCL(ROMCL),.ROMAD(ROMAD),.ROMDT(ROMDT),.ROMEN(ROMEN)
+	.ROMCL(ROMCL),.ROMAD(ROMAD),.ROMDT(ROMDT),.ROMEN(ROMEN),
+	
+	.PAUSE_N(PAUSE_N),
+	.HSAD(HSAD),.HSDO(HSDO),.HSDI(HSDI),.HSWE(HSWE)
+	
 );
 
 // Video
@@ -58,7 +69,10 @@ SEGASYS1_VIDEO Video (
 	.cpu_ad(CPUAD),.cpu_wr(CPUWR),.cpu_dw(CPUDO),
 	.cpu_rd(VIDCS),.cpu_dr(VIDDO),
 
-	.ROMCL(ROMCL),.ROMAD(ROMAD),.ROMDT(ROMDT),.ROMEN(ROMEN)
+	.ROMCL(ROMCL),.ROMAD(ROMAD),.ROMDT(ROMDT),.ROMEN(ROMEN),
+	
+	.PAUSE_N(PAUSE_N),
+//	.HSAD(HSAD),.HSDO(HSDO),.HSDI(HSDI),.HSWE(HSWE)
 );
 assign POUT = VIDMD[4] ? 8'd0 : OPIX;
 

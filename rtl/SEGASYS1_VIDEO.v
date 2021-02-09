@@ -34,9 +34,15 @@ module SEGASYS1_VIDEO
 	output	[7:0]	cpu_dr,
 	
 	input				ROMCL,		// Downloaded ROM image
-	input   [24:0]	ROMAD,
-	input    [7:0]	ROMDT,
-	input				ROMEN
+	input	 [24:0]	ROMAD,
+	input	 [7:0]	ROMDT,
+	input				ROMEN,
+	
+	input 			PAUSE_N,
+	input  [11:0]  HSAD,
+	output [7:0]   HSDO,
+	input  [7:0]   HSDI,
+	input  [7:0]   HSWE
 );
 
 reg [2:0] clkdiv;
