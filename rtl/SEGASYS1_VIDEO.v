@@ -39,10 +39,10 @@ module SEGASYS1_VIDEO
 	input				ROMEN,
 	
 	input 			PAUSE_N,
-	input  [11:0]  HSAD,
-	output [7:0]   HSDO,
-	input  [7:0]   HSDI,
-	input  [7:0]   HSWE
+	input  [15:0]	HSAD,
+	output [7:0]	HSDO,
+	input  [7:0]	HSDI,
+	input				HSWE
 );
 
 reg [2:0] clkdiv;
@@ -85,7 +85,8 @@ VIDCPUINTF intf(
 	vram1ad, vram1dt,
 	mixcoll_ad, mixcoll,
 	sprcoll_ad, sprcoll,
-	scrx, scry
+	scrx, scry,
+	PAUSE_N,HSAD,HSDO,HSDI,HSWE
 );
 
 
@@ -195,7 +196,13 @@ module VIDCPUINTF
 	input				sprcoll,
 	
 	output reg [15:0] scrx,
-	output reg  [7:0] scry
+	output reg  [7:0] scry,
+	
+	input 			PAUSE_N,
+	input  [15:0]	HSAD,
+	output [7:0]	HSDO,
+	input  [7:0]	HSDI,
+	input				HSWE
 );
 
 // CPU Address Decoders
@@ -268,12 +275,21 @@ DPRAM2048 palram(
 
 
 // Sprite Attribute RAM
-wire  [7:0] cpu_rd_spram;
+wire [7:0]	cpu_rd_spram;
+
+// Hiscore mux
+wire [10:0]	sprad0;
+wire [7:0]	sprdw0;
+wire 			sprwr0;
+assign sprad0 = PAUSE_N ? cpu_ad[10:0] : HSAD[10:0];
+assign sprdw0 = PAUSE_N ? cpu_dw : HSDI;
+assign sprwr0 = PAUSE_N ? cpu_wr_spram : HSWE;
+assign HSDO = cpu_rd_spram;
+
 DPRAM2048_8_16 sprram(
-	clk, cpu_ad[10:0], cpu_dw, cpu_wr_spram,
+	clk, sprad0, sprdw0, sprwr0,
 	clk, sprad, sprdt, cpu_rd_spram
 );
-
 
 // Collision RAM (Mixer & Sprite)
 wire [7:0]	cpu_rd_mixcoll;

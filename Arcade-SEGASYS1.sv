@@ -386,16 +386,16 @@ SEGASYSTEM1 GameCore
 );
 
 
-wire [11:0]ram_address;
+wire [15:0]ram_address;
 wire [7:0]hiscore_to_ram;
 wire hiscore_write;
 wire hiscore_pause;
 
 assign pause = hiscore_pause || pause_toggle;
 
-hiscore #(12) hi (
+hiscore #(16) hi (
    .clk(clk_sys),
-   .reset(reset),
+   .reset(iRST),
    .mode(status[15]),
 	.delay(1'b0),
    .ioctl_upload(ioctl_upload),

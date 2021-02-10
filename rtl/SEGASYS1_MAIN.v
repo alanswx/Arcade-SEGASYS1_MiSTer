@@ -34,12 +34,11 @@ module SEGASYS1_MAIN
 	input	  [7:0]	ROMDT,
 	input				ROMEN,
 	
-	input PAUSE_N,
-	
-	input  [11:0]  HSAD,
-	output [7:0]   HSDO,
-	input  [7:0]   HSDI,
-	input  [7:0]   HSWE
+	input 			PAUSE_N,
+	input  [15:0]	HSAD,
+	output [7:0]	HSDO,
+	input  [7:0]	HSDI,
+	input				HSWE
 	
 );
 
@@ -122,10 +121,10 @@ mainram(
 	.q_a(cpu_rd_mram),
 
 	.clk_b(CLK48M),
-	.addr_b(ram_address),
-	.we_b(ram_data_write),
-	.d_b(ram_data_in),
-	.q_b(ram_data_out)
+	.addr_b(HSAD[11:0]),
+	.we_b(HSWE),
+	.d_b(HSDI),
+	.q_b(HSDO)
 
 );
 
