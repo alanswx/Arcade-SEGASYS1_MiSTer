@@ -6,7 +6,7 @@
 	<year>1985</year>
 	<manufacturer>Sega</manufacturer>
 	<category>Fighter / Asian</category>
-	<rbf>segasys1</rbf>
+	<rbf>arcade-segasys1</rbf>
     <switches default="FF,7E">
 		<dip bits="9" name="Demo Sound" ids="On,Off"/>
 		<dip bits="10,11" name="Lives" ids="240,4,2,3"/>

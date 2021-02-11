@@ -7,7 +7,7 @@
 	<manufacturer>Sega</manufacturer>
 	<category>Maze / Extra</category>
 	<category>Racing / Bicycle</category>
-	<rbf>segasys1</rbf>
+	<rbf>arcade-segasys1</rbf>
     <switches default="FF,7E">
 		<dip bits="9" name="Demo Sound" ids="On,Off"/>
 		<dip bits="10,11" name="Lives" ids="Infinite,4,2,3"/>

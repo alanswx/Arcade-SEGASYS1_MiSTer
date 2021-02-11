@@ -121,13 +121,14 @@ localparam CONF_STR = {
 	"DIP;",
 	"-;",
 	"O7,Pause,Off,On;",
+	"OF,High Score Save,Manual,Off;",
 	"-;",
 	"OOS,Analog Video H-Pos,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31;",
 	"OTV,Analog Video V-Pos,0,1,2,3,4,5,6,7;",
 	"-;",
 	"R0,Reset;",
-	"J1,Trig1,Trig2,Trig3,Trig4,Trig5,Start 1P,Start 2P,Coin;",
-	"jn,A,B,X,,,Start,Select,R;",
+	"J1,Trig1,Trig2,Trig3,Trig4,Trig5,Start 1P,Start 2P,Coin,Pause;",
+	"jn,A,B,X,,,Start,Select,R,L;",
 	"V,v",`BUILD_DATE
 };
 
@@ -167,6 +168,8 @@ wire [15:0] joy1, joy2;
 wire [15:0] joy = joy1 | joy2;
 wire  [8:0] spinner_0, spinner_1;
 wire [24:0] ps2_mouse;
+
+reg 			pause;
 
 wire [21:0]	gamma_bus;
 
@@ -231,6 +234,14 @@ wire m_trig_3 = joy[6];
 wire m_start1 = joy[9];
 wire m_start2 = joy[10];
 wire m_coin   = joy[11];
+wire m_pause  = joy[12];
+
+reg pause_toggle = 1'b0;
+always @(posedge clk_sys) begin
+    reg old_pause;
+    old_pause <= m_pause;
+    if(~old_pause & m_pause) pause_toggle <= ~pause_toggle;
+end
 
 ///////////////////////////////////////////////////
 
@@ -366,22 +377,28 @@ SEGASYSTEM1 GameCore
 	.ROMAD(ioctl_addr),
 	.ROMDT(ioctl_dout),
 	.ROMEN(ioctl_wr & (ioctl_index==0)),
-	.halt_n(~status[7]),
+	.PAUSE_N(~pause),
 	
-	.ram_address(ram_address),
-	.ram_data_hi(ioctl_din),
-	.ram_data_in(hiscore_to_ram),
-	.ram_data_write(hiscore_write)
+	.HSAD(ram_address),
+	.HSDO(ioctl_din),
+	.HSDI(hiscore_to_ram),
+	.HSWE(hiscore_write)
 
 );
 
 
-wire [11:0]ram_address;
+wire [15:0]ram_address;
 wire [7:0]hiscore_to_ram;
 wire hiscore_write;
+wire hiscore_pause;
 
-hiscore hi (
+assign pause = hiscore_pause || pause_toggle;
+
+hiscore #(16) hi (
    .clk(clk_sys),
+   .reset(iRST),
+   .mode(status[15]),
+	.delay(1'b0),
    .ioctl_upload(ioctl_upload),
    .ioctl_download(ioctl_download),
    .ioctl_wr(ioctl_wr),
@@ -392,7 +409,8 @@ hiscore hi (
    .ram_address(ram_address),
    .data_to_ram(hiscore_to_ram),
    .ram_write(hiscore_write)
-
+   .ram_write(hiscore_write),
+   .pause(hiscore_pause)
 );
 
 

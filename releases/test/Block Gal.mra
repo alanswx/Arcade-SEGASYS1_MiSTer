@@ -4,7 +4,7 @@
 	<setname>blockgal</setname>
 	<mratimestamp>20200107000000</mratimestamp>
 	<category>Arkanoid</category>
-	<rbf>segasys1</rbf>
+	<rbf>arcade-segasys1</rbf>
     <switches default="FF,82">
 		<dip bits="9"  name="Demo Sound" ids="Off,On"/>
 		<dip bits="11" name="Lives" ids="3,2"/>
@@ -2094,6 +2094,5 @@ C7 A6 82 4A D0 30 16 FA C7 A6 82 4A D0 30 16 FA AE 7B D1 29 8E 0D 73 00 AE 7B D1
 		</part>
 	</rom>
 	<nvram index="4" size="3"/>
-
 </misterromdescription>
 

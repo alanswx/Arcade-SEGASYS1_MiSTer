@@ -6,7 +6,7 @@
 	<year>1984</year>
 	<manufacturer>Sega</manufacturer>
 	<category>Fighter / Warriors</category>
-	<rbf>segasys1</rbf>
+	<rbf>arcade-segasys1</rbf>
     <switches default="FF,7E">
 		<dip bits="9" name="Maximum Credits" ids="99,9"/>
 		<dip bits="10,11" name="Lives"  ids="Infinite,5,4,3"/>

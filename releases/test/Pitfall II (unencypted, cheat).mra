@@ -6,7 +6,7 @@
 	<year>1985</year>
 	<manufacturer>Sega</manufacturer>
 	<category>Maze / Extra</category>
-	<rbf>segasys1</rbf>
+	<rbf>arcade-segasys1</rbf>
     <switches default="FF,DE">
 		<dip bits="9,10"  name="Lives" ids="Infinite,5,4,3"/>
 		<dip bits="11,12" name="Starting Stage" ids="4,3,2,1"/>

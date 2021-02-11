@@ -16,8 +16,8 @@ module Z80IP
 	input				intreq,
 	output			intack,
 	input				nmireq,
-	output			nmiackm,
-	input          halt_n
+	output			nmiack,
+	input          wait_n
 );
 
 wire i_mreq, i_iorq, i_rd, i_wr, i_rfsh, i_m1;
@@ -37,10 +37,9 @@ T80s cpu
 	.A(adr),
 	.DI(data_in),
 	.DO(data_out),
-	.WAIT_n(1'b1),
+	.WAIT_n(wait_n),
 	.BUSRQ_n(1'b1),
 	.BUSAK_n(),
-	.HALT_n(halt_n),
 	.M1_n(i_m1)
 );
 

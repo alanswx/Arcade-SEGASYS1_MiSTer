@@ -6,7 +6,7 @@
 	<year>1984</year>
 	<manufacturer>Sega</manufacturer>
 	<category>Sport</category>
-	<rbf>segasys1</rbf>
+	<rbf>arcade-segasys1</rbf>
 	<switches default="FF,7E" base="8">
 		<dip bits="8"      name="Cabinet" ids="Upright,Cocktail"/>
 		<dip bits="9"      name="Demo Sounds" ids="On,Off"/>

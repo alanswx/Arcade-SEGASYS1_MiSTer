@@ -34,12 +34,13 @@ module SEGASYS1_MAIN
 	input	  [7:0]	ROMDT,
 	input				ROMEN,
 	
-	input halt_n,
-	
-	input  [11:0]  ram_address,
-	output [7:0]   ram_data_hi,
-	input  [7:0]   ram_data_in,
-	input  [7:0]   ram_data_write
+
+	input 			PAUSE_N,
+	input  [15:0]	HSAD,
+	output [7:0]	HSDO,
+	input  [7:0]	HSDI,
+	input				HSWE
+
 	
 );
 
@@ -70,7 +71,8 @@ Z80IP maincpu(
 	.wr(_cpu_wr),
 	.intreq(VBLK),
 	.nmireq(1'b0),
-	.halt_n(halt_n)
+	.wait_n(PAUSE_N)
+
 );
 
 assign CPUWR = _cpu_wr & cpu_mreq;
@@ -113,20 +115,21 @@ wire			cpu_cs_mram = (CPUAD[15:12] == 4'b1100) & cpu_mreq;
 	input		  [7:0]	in
 */
 
-dpram_hs #(.addr_width_g(12),.data_width_g(8))
-mainram(
-	.clk_a_i(CLK48M),
-	.addr_a_i(CPUAD[11:0]),
-	.data_a_o(cpu_rd_mram),
-	.we_a_i(cpu_cs_mram & CPUWR),
-	.data_a_i(CPUDO),
 
-	
-	.addr_b_i(ram_address),
-	.clk_b_i(CLK48M),
-	.data_b_i(ram_data_in),
-	.data_b_o(ram_data_hi),
-	.we_b_i(ram_data_write)
+
+dpram #(.aWidth(12),.dWidth(8))
+mainram(
+	.clk_a(CLK48M),
+	.addr_a(CPUAD[11:0]),
+	.we_a(cpu_cs_mram & CPUWR),
+	.d_a(CPUDO),
+	.q_a(cpu_rd_mram),
+
+	.clk_b(CLK48M),
+	.addr_b(HSAD[11:0]),
+	.we_b(HSWE),
+	.d_b(HSDI),
+	.q_b(HSDO)
 
 );
 

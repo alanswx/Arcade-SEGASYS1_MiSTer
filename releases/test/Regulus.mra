@@ -6,7 +6,7 @@
 	<year>1983</year>
 	<manufacturer>Sega</manufacturer>
 	<category>Shmup</category>
-	<rbf>segasys1</rbf>
+	<rbf>arcade-segasys1</rbf>
     <switches default="FF,7E">
 		<dip bits="10,11"  name="Lives" ids="Infinite,5,4,3"/>
 		<dip bits="14"     name="Difficulty" ids="Hard,Easy"/>

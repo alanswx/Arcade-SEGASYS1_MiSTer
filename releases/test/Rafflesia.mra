@@ -6,7 +6,7 @@
 	<year>1986</year>
 	<manufacturer>Sega</manufacturer>
 	<category>Shmup</category>
-	<rbf>segasys1</rbf>
+	<rbf>arcade-segasys1</rbf>
     <switches default="FF,FC">
 		<dip bits="9"     name="Demo Sound" ids="On,Off"/> 
 		<dip bits="10,11" name="Lives" ids="Free Play,5,4,3"/> 
