@@ -121,7 +121,7 @@ localparam CONF_STR = {
 	"DIP;",
 	"-;",
 	"O7,Pause,Off,On;",
-	"OF,High Score Save,Manual,Off;",
+	"OG,High Score Save,Manual,Off;",
 	"-;",
 	"OOS,Analog Video H-Pos,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31;",
 	"OTV,Analog Video V-Pos,0,1,2,3,4,5,6,7;",
@@ -397,7 +397,7 @@ assign pause = hiscore_pause || pause_toggle;
 hiscore #(16) hi (
    .clk(clk_sys),
    .reset(iRST),
-   .mode(status[15]),
+   .mode(status[16]),
 	.delay(1'b0),
    .ioctl_upload(ioctl_upload),
    .ioctl_download(ioctl_download),
@@ -408,7 +408,6 @@ hiscore #(16) hi (
    .ioctl_index(ioctl_index),
    .ram_address(ram_address),
    .data_to_ram(hiscore_to_ram),
-   .ram_write(hiscore_write)
    .ram_write(hiscore_write),
    .pause(hiscore_pause)
 );
